@@ -273,14 +273,14 @@
             <h2>📋 Actividad </h2>
             <ol>
                 <li>Identifica <strong>2 bugs</strong> y <strong>2 problemas de UX</strong> que pueden tener los sitios que se muestran a continuación.
-                Describir brevemente cada problema encontrado el informe.</li>
+                Describir brevemente cada problema encontrado.</li>
                 <li>Documentar uno de los problemas del punto anterior a través de un ticket ficticio, donde se incluya:</li>
                 <ul>
                     <li>Título</li>
                     <li>Descripción detallada del problema</li>
                     <li>Comportamiento actual y esperado</li>
-                    <li>Pasos para reproducir</li>
-                    <li>Criticidad y justificación</li>
+                    <li>Pasos para reproducir el problema</li>
+                    <li>Criticidad y justificación de la misma</li>
                     <li>Estimación usando técnica tradicional</li>
                     <li>Estimación usando Poker Planning (Valor de Fibonacci y justificación de valor elegido)</li>
                 </ul>
@@ -290,13 +290,13 @@
                 <h2>📝 Ejemplos: </h2>
                 <h3><strong>1. Descripción breve de los problemas encontrados</strong></h3>
 
-                <p><strong>Bug: Formulario del Newsletter sin validación de email en BookStore Online</strong></p>
-                <p>El formulario de suscripción al boletín permite enviar datos sin verificar si el campo ingresado corresponde a un correo electrónico válido. 
+                <p><strong>Bug en BookStore Online: Formulario del Newsletter sin validación de email</strong></p>
+                <p>El formulario de suscripción del footer permite enviar datos sin verificar si el campo ingresado corresponde a un correo electrónico válido. 
                 Esto genera el riesgo de que se guarden direcciones incorrectas o vacías, afectando la calidad de la base de datos y la comunicación con los usuarios.</p>
 
-                <p><strong>UX: Botones de redes sociales sin colores ni icono distintivos en TechNews Blog</strong></p>
+                <p><strong>UX en TechNews Blog: Botones de redes sociales sin colores ni icono distintivos</strong></p>
                 <p>Los botones que enlazan a redes sociales presentan un diseño neutro y sin los colores ni logotipos típicos 
-                (por ejemplo, azul para Facebook o “X” para Twitter). 
+                (por ejemplo, azul para Facebook). 
                 Esto dificulta la identificación rápida por parte del usuario y afecta la usabilidad y coherencia visual del sitio.</p>
                 <hr>
                 <div class="example2">
@@ -317,7 +317,7 @@
                         <li>El sistema debe validar que el campo contenga un correo con formato válido (ejemplo: usuario@dominio.com).</li>
                         <li>Si el campo está vacío o no cumple el formato, debe mostrarse un mensaje de error.</li>
                     </ul>
-                    <p><strong>Pasos para reproducior problema:</strong></p>
+                    <p><strong>Pasos para reproducir problema:</strong></p>
                     <ul>
                         <li>Ir a la página principal.</li>
                         <li>Desplazarse hasta el formulario del Newsletter.</li>
@@ -348,19 +348,19 @@
                     <p><strong>Título:</strong></p>
                     <p>Botones de redes sociales sin colores ni icono distintivos en TechNews Blog</p>
                     <p><strong>Descripción:</strong></p>
-                    <p>Los botones ubicados dentro de la ventana de modal al hacer clic en compartir (dentro de cada artículo) carecen de los colores e iconos típicos de cada red social. 
+                    <p>Los botones ubicados dentro de la ventana de modal al hacer clic en botón compartir (dentro de cada artículo) carecen de los colores e iconos típicos de cada red social. 
                         Actualmente todos los botones son iguales, sin texto ni imagen que los distinga.</p>
                     <p><strong>Comportamiento actual:</strong></p>
                     <ul>
                         <li>Todos los botones son del mismo color (gris o neutro).</li>
-                        <li>No tienen iconos ni logotipos (por ejemplo, el logo de Facebook, Instagram, LinkedIn, etc.).</li>
+                        <li>No tienen iconos ni logotipos (por ejemplo, el logo de Facebook, Twitter, LinkedIn.).</li>
                     </ul>
                     <p><strong>Comportamiento esperado:</strong></p>
                     <ul>
                         <li>Cada botón debe tener el color corporativo correspondiente a la red social.</li>
                         <li>Cada botón debe incluir el icono correspondiente (por ejemplo, con librerías como FontAwesome o Bootstrap Icons).</li>
                     </ul>
-                    <p><strong>Pasos para reproducior problema:</strong></p>
+                    <p><strong>Pasos para reproducir problema:</strong></p>
                     <ul>
                         <li>Ir a la página principal.</li>
                         <li>Hacer clic en un Articulo.</li>
