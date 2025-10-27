@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - BookStore</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: opacity 0.3s;
+        }
+
+        .header-nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: #333;
+        }
+
+        .clear-cart-btn {
+            background: none;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 120px;
+            height: 160px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .item-author {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .item-stock {
+            font-size: 13px;
+            color: #28a745;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 3px;
+        }
+
+        .qty-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .remove-btn {
+            color: #dc3545;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        .item-price-section {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-price {
+            font-size: 24px;
+            color: #f5576c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .item-subtotal {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .total-label {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .total-value {
+            font-size: 28px;
+            color: #f5576c;
+            font-weight: bold;
+        }
+
+        .coupon-section {
+            margin: 20px 0;
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .coupon-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .coupon-input button {
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .shipping-options {
+            margin: 20px 0;
+        }
+
+        .shipping-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .shipping-option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .tax-info {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #f5576c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #d64560;
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .recommended-section {
+            margin-top: 40px;
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .recommended-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .recommended-item {
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .recommended-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .recommended-image {
+            width: 100%;
+            height: 180px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .recommended-name {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .recommended-price {
+            font-size: 18px;
+            color: #f5576c;
+            font-weight: bold;
+        }
+
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                order: -1;
+            }
+
+            .recommended-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 15px;
+            }
+
+            .item-price-section {
+                grid-column: 2;
+                text-align: left;
+                margin-top: 10px;
+            }
+
+            .recommended-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">📚 BookStore</a>
+            <nav class="header-nav">
+                <a href="index.html">Inicio</a>
+                <a href="index.html#categorias">Categorías</a>
+                <a href="carrito.html">Carrito (3)</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">🛒 Mi Carrito</h1>
+            <button class="clear-cart-btn" onclick="clearCart()">Vaciar Carrito</button>
+        </div>
+
+        <div class="cart-layout">
+            <!-- Cart Items -->
+            <div class="cart-items">
+                <!-- Item 1 -->
+                <div class="cart-item" id="item1">
+                    <div class="item-image">📘</div>
+                    <div class="item-details">
+                        <div>
+                            <h3 class="item-title">Clean Code: Manual de Desarrollo Ágil de Software</h3>
+                            <p class="item-author">Robert C. Martin</p>
+                            <p class="item-stock">✓ En stock</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="decreaseQty(1)">−</button>
+                            <input type="number" class="qty-input" value="1" min="1" max="10" id="qty1">
+                            <button class="qty-btn" onclick="increaseQty(1)">+</button>
+                            <button class="remove-btn" onclick="removeItem(1)">Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="item-price-section">
+                        <div class="item-price">$3,500</div>
+                        <div class="item-subtotal" id="subtotal1">Subtotal: $3,500</div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="cart-item" id="item2">
+                    <div class="item-image">📗</div>
+                    <div class="item-details">
+                        <div>
+                            <h3 class="item-title">Introducción a la Inteligencia Artificial</h3>
+                            <p class="item-author">Stuart Russell</p>
+                            <p class="item-stock">✓ En stock</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="decreaseQty(2)">−</button>
+                            <input type="number" class="qty-input" value="2" min="1" max="10" id="qty2">
+                            <button class="qty-btn" onclick="increaseQty(2)">+</button>
+                            <button class="remove-btn" onclick="removeItem(2)">Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="item-price-section">
+                        <div class="item-price">$4,200</div>
+                        <div class="item-subtotal" id="subtotal2">Subtotal: $8,400</div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="cart-item" id="item3">
+                    <div class="item-image">📕</div>
+                    <div class="item-details">
+                        <div>
+                            <h3 class="item-title">JavaScript: The Definitive Guide</h3>
+                            <p class="item-author">David Flanagan</p>
+                            <p class="item-stock" style="color: #ffa500;">⚠ Últimas 3 unidades</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="decreaseQty(3)">−</button>
+                            <input type="number" class="qty-input" value="1" min="1" max="3" id="qty3">
+                            <button class="qty-btn" onclick="increaseQty(3)">+</button>
+                            <button class="remove-btn" onclick="removeItem(3)">Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="item-price-section">
+                        <div class="item-price">$3,800</div>
+                        <div class="item-subtotal" id="subtotal3">Subtotal: $3,800</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary">
+                <h2 class="summary-title">Resumen del Pedido</h2>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal (<span id="itemCount">4</span> items)</span>
+                    <span class="summary-value" id="summarySubtotal">$15,700</span>
+                </div>
+
+                <div class="coupon-section">
+                    <label style="font-size: 14px; color: #666; margin-bottom: 8px; display: block;">Código de descuento</label>
+                    <div class="coupon-input">
+                        <input type="text" placeholder="Ingresa tu código" id="couponCode">
+                        <button onclick="applyCoupon()">Aplicar</button>
+                    </div>
+                    <div id="couponMessage" style="margin-top: 8px; font-size: 13px;"></div>
+                </div>
+
+                <div class="shipping-options">
+                    <label style="font-size: 14px; color: #666; margin-bottom: 10px; display: block;">Método de envío</label>
+                    <label class="shipping-option">
+                        <div>
+                            <input type="radio" name="shipping" value="500" checked onchange="updateShipping()">
+                            <span>Envío estándar (5-7 días)</span>
+                        </div>
+                        <strong>$500</strong>
+                    </label>
+                    <label class="shipping-option">
+                        <div>
+                            <input type="radio" name="shipping" value="1200" onchange="updateShipping()">
+                            <span>Envío express (2-3 días)</span>
+                        </div>
+                        <strong>$1,200</strong>
+                    </label>
+                    <label class="shipping-option">
+                        <div>
+                            <input type="radio" name="shipping" value="0" onchange="updateShipping()">
+                            <span>Retiro en sucursal</span>
+                        </div>
+                        <strong>Gratis</strong>
+                    </label>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Envío</span>
+                    <span class="summary-value" id="shippingCost">$500</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">IVA (21%)</span>
+                    <span class="summary-value" id="taxAmount">$3,297</span>
+                </div>
+
+                <div class="summary-row summary-total">
+                    <span class="total-label">Total</span>
+                    <span class="total-value" id="finalTotal">$19,497</span>
+                </div>
+
+                <p class="tax-info">* Los impuestos se calculan según tu ubicación</p>
+
+                <button class="checkout-btn" onclick="proceedToCheckout()">Finalizar Compra</button>
+                <a href="index.html" class="continue-shopping">← Continuar Comprando</a>
+            </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <div class="recommended-section">
+            <h2 class="recommended-title">También te puede interesar</h2>
+            <div class="recommended-grid">
+                <div class="recommended-item" onclick="addRecommended(1)">
+                    <div class="recommended-image">📙</div>
+                    <p class="recommended-name">Design Patterns</p>
+                    <p class="recommended-price">$4,500</p>
+                </div>
+                <div class="recommended-item" onclick="addRecommended(2)">
+                    <div class="recommended-image">📔</div>
+                    <p class="recommended-name">Python para Análisis</p>
+                    <p class="recommended-price">$3,200</p>
+                </div>
+                <div class="recommended-item" onclick="addRecommended(3)">
+                    <div class="recommended-image">📓</div>
+                    <p class="recommended-name">The Pragmatic Programmer</p>
+                    <p class="recommended-price">$2,990</p>
+                </div>
+                <div class="recommended-item" onclick="addRecommended(4)">
+                    <div class="recommended-image">📒</div>
+                    <p class="recommended-name">Refactoring</p>
+                    <p class="recommended-price">$4,100</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 BookStore - Todos los derechos reservados</p>
+        <p style="margin-top: 10px; font-size: 14px; color: #bdc3c7;">Compra segura • Envíos a todo el país • Devoluciones gratis</p>
+    </footer>
+
+    <!-- Confirm Delete Modal -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 15px; color: #333;">¿Eliminar producto?</h3>
+            <p style="color: #666; margin-bottom: 20px;">¿Estás seguro de que deseas eliminar este producto del carrito?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn" style="background: #6c757d; color: white;" onclick="closeModal()">Cancelar</button>
+                <button class="modal-btn" style="background: #dc3545; color: white;" onclick="confirmDelete()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Precios de productos
+        const prices = {
+            1: 3500,
+            2: 4200,
+            3: 3800
+        };
+
+        let itemToDelete = null;
+
+        function increaseQty(itemId) {
+            const input = document.getElementById('qty' + itemId);
+            let currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+            console.log('Cantidad aumentada para item', itemId);
+        }
+
+        function decreaseQty(itemId) {
+            const input = document.getElementById('qty' + itemId);
+            let currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+            console.log('Cantidad disminuida para item', itemId);
+        }
+
+        document.querySelectorAll('.qty-input').forEach(input => {
+            input.addEventListener('change', function() {
+                console.log('Cantidad cambiada manualmente pero sin validar stock');
+            });
+        });
+
+        // BUG 4: Eliminar sin modal de confirmación
+        function removeItem(itemId) {
+            itemToDelete = itemId;
+            alert('Producto eliminado del carrito');
+            console.log('Item eliminado directamente sin confirmación:', itemId);
+        }
+
+        function confirmDelete() {
+            if (itemToDelete) {
+                alert('Producto eliminado sin opción de deshacer');
+                closeModal();
+                itemToDelete = null;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        function clearCart() {
+            if (confirm('¿Estás seguro de vaciar el carrito?')) {
+                alert('Carrito vaciado');
+            }
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponCode').value.trim();
+            const messageDiv = document.getElementById('couponMessage');
+            
+            if (code === '') {
+                messageDiv.style.color = '#dc3545';
+                messageDiv.textContent = 'Por favor ingresa un código';
+                return;
+            }
+            
+            messageDiv.style.color = '#28a745';
+            messageDiv.textContent = '✓ Cupón "' + code + '" aplicado';
+            console.log('Cupón aplicado sin validación:', code);
+        }
+
+        function updateShipping() {
+            const selected = document.querySelector('input[name="shipping"]:checked');
+            const shippingCost = parseInt(selected.value);
+            console.log('Método de envío cambiado, costo:', shippingCost);
+        }
+
+        function proceedToCheckout() {
+            console.log('Procediendo al checkout...');
+            setTimeout(() => {
+                alert('Redirigiendo a checkout... (simulado)');
+            }, 2000);
+        }
+
+        function addRecommended(productId) {
+            console.log('Producto recomendado agregado:', productId);
+            alert('Producto agregado al carrito');
+        }
+
+        window.addEventListener('beforeunload', function() {
+            console.log('Página recargando, carrito se perderá');
+        });
+
+        console.log('IVA calculado incorrectamente sobre subtotal sin envío');
+
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                console.log('Click en background pero modal no cierra');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                console.log('ESC presionado pero modal no cierra');
+            }
+        });
+
+        function checkFreeShipping() {
+            const subtotal = 15700;
+            const freeShippingThreshold = 20000;
+            const remaining = freeShippingThreshold - subtotal;
+            
+            if (remaining > 0) {
+                console.log('Faltan $' + remaining + ' para envío gratis - no se muestra al usuario');
+            }
+        }
+
+        window.addEventListener('load', function() {
+            console.log('Carrito cargado');
+            checkFreeShipping();
+        });
+    </script>
+</body>
+</html>

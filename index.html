@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX -Estimación de Bugs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 800px;
+            color: white;
+        }
+
+        .instructions h2 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .instructions ol {
+            list-style-position: inside;
+            line-height: 1.8;
+        }
+        .instructions ul {
+            list-style-position: inside;
+            margin-left: 10px;
+            line-height: 1.5;
+        }
+
+        .example {
+            background: rgb(16 15 15 / .5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .example strong {
+            color: #ffd166;
+        }
+
+        .example p {
+            margin: 8px 0;
+        }
+
+        .example2 strong{
+            color: #fa9a9c !important;
+        }
+
+        .example3 strong{
+            color: #b9fa9a !important;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .project-header {
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .project-card:nth-child(1) .project-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .project-card:nth-child(2) .project-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .project-card:nth-child(3) .project-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .project-card:nth-child(4) .project-header {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .project-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .project-card h2 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .project-type {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .project-body {
+            padding: 30px;
+        }
+
+        .project-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .difficulty.easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .features {
+            margin: 20px 0;
+        }
+
+        .features h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .features ul {
+            list-style: none;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .btn-explore {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-explore:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px auto;
+            max-width: 800px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Problemas de UX y bugs</h1>
+            <p class="subtitle">Actividad de cursada - Ingeniería de Software 2</p>
+        </header>
+
+        <div class="instructions">
+            <h2>📋 Actividad </h2>
+            <ol>
+                <li>Identifica <strong>2 bugs</strong> y <strong>2 problemas de UX</strong> que pueden tener los sitios que se muestran a continuación.
+                Describir brevemente cada problema encontrado el informe.</li>
+                <li>Documentar uno de los problemas del punto anterior a través de un ticket ficticio, donde se incluya:</li>
+                <ul>
+                    <li>Título</li>
+                    <li>Descripción detallada del problema</li>
+                    <li>Comportamiento actual y esperado</li>
+                    <li>Pasos para reproducir</li>
+                    <li>Criticidad y justificación</li>
+                    <li>Estimación usando técnica tradicional</li>
+                    <li>Estimación usando Poker Planning (Valor de Fibonacci y justificación de valor elegido)</li>
+                </ul>
+            </ol>
+            
+            <div class="example">
+                <h2>📝 Ejemplos: </h2>
+                <h3><strong>1. Descripción breve de los problemas encontrados</strong></h3>
+
+                <p><strong>Bug: Formulario del Newsletter sin validación de email en BookStore Online</strong></p>
+                <p>El formulario de suscripción al boletín permite enviar datos sin verificar si el campo ingresado corresponde a un correo electrónico válido. 
+                Esto genera el riesgo de que se guarden direcciones incorrectas o vacías, afectando la calidad de la base de datos y la comunicación con los usuarios.</p>
+
+                <p><strong>UX: Botones de redes sociales sin colores ni icono distintivos en TechNews Blog</strong></p>
+                <p>Los botones que enlazan a redes sociales presentan un diseño neutro y sin los colores ni logotipos típicos 
+                (por ejemplo, azul para Facebook o “X” para Twitter). 
+                Esto dificulta la identificación rápida por parte del usuario y afecta la usabilidad y coherencia visual del sitio.</p>
+                <hr>
+                <div class="example2">
+                    <h3><strong>2. Documentación</strong></h3>
+                    <h3><strong>Ejemplo 1</strong></h3>
+                    <p><strong>Título:</strong></p>
+                    <p>Error de validación en el formulario de suscripción al Newsletter de BookStore Online</p>
+                    <p><strong>Descripción:</strong></p>
+                    <p>El formulario de suscripción al boletín permite enviar el formulario sin verificar que el campo “Email” contenga una dirección válida. 
+                    Actualmente, el sistema acepta valores vacíos o cadenas no válidas (por ejemplo, “abc” o “12345”), almacenándolos como si fueran direcciones de correo reales.</p>
+                    <p><strong>Comportamiento actual:</strong></p>
+                    <ul>
+                        <li>El usuario ingresa cualquier texto o deja el campo vacío.</li>
+                        <li>El formulario se envía correctamente sin mostrar mensajes de error.</li>
+                    </ul>
+                    <p><strong>Comportamiento esperado:</strong></p>
+                    <ul>
+                        <li>El sistema debe validar que el campo contenga un correo con formato válido (ejemplo: usuario@dominio.com).</li>
+                        <li>Si el campo está vacío o no cumple el formato, debe mostrarse un mensaje de error.</li>
+                    </ul>
+                    <p><strong>Pasos para reproducior problema:</strong></p>
+                    <ul>
+                        <li>Ir a la página principal.</li>
+                        <li>Desplazarse hasta el formulario del Newsletter.</li>
+                        <li>Ingresar un texto no válido (por ejemplo: “test”) o dejar el campo vacío.</li>
+                        <li>Hacer clic en el botón (icono con flecha)</li>
+                    </ul>
+                    <p><strong>Criticidad:</strong></p>
+                    <p>Media</p>
+                    <p><strong>Justificación:</strong></p>
+                    <p>El problema no bloquea el funcionamiento general del sitio, pero afecta la integridad de los datos y puede tener impacto negativo 
+                        en la comunicación con los usuarios (emails incorrectos o inexistentes). No impide el uso del sistema, pero sí compromete su calidad
+                         de datos y experiencia del usuario.
+                    <p><strong>Estimación técnica tradicinal</strong></p>
+                    <ul>
+                        <li>Análisis e implementación: 1 hora</li>
+                        <li>Pruebas y correcciones: 0.5 horas</li>
+                        <p>Total estimado: 1.5 horas</p>
+                    </ul>
+                    <p><strong>Estimación con Planning Poker (Sucesión de Fibonacci)</strong></p>
+                    <p>Valores de Fibonacci: 1 – 2 – 3 – 5 – 8 – 13 – 21</p>
+                    <p>Valor elegido: 2 puntos</p>
+                    <p>Justificación: Aunque el cambio es simple, requiere revisión, testeo visual y validación funcional, por lo que se considera ligeramente 
+                        más complejo que una tarea trivial (1 punto), pero menor que una funcionalidad completa (3 puntos).</p>
+                </div>
+                <hr>
+                <div class="example3">
+                    <h3><strong>Ejemplo 2</strong></h3>
+                    <p><strong>Título:</strong></p>
+                    <p>Botones de redes sociales sin colores ni icono distintivos en TechNews Blog</p>
+                    <p><strong>Descripción:</strong></p>
+                    <p>Los botones ubicados dentro de la ventana de modal al hacer clic en compartir (dentro de cada artículo) carecen de los colores e iconos típicos de cada red social. 
+                        Actualmente todos los botones son iguales, sin texto ni imagen que los distinga.</p>
+                    <p><strong>Comportamiento actual:</strong></p>
+                    <ul>
+                        <li>Todos los botones son del mismo color (gris o neutro).</li>
+                        <li>No tienen iconos ni logotipos (por ejemplo, el logo de Facebook, Instagram, LinkedIn, etc.).</li>
+                    </ul>
+                    <p><strong>Comportamiento esperado:</strong></p>
+                    <ul>
+                        <li>Cada botón debe tener el color corporativo correspondiente a la red social.</li>
+                        <li>Cada botón debe incluir el icono correspondiente (por ejemplo, con librerías como FontAwesome o Bootstrap Icons).</li>
+                    </ul>
+                    <p><strong>Pasos para reproducior problema:</strong></p>
+                    <ul>
+                        <li>Ir a la página principal.</li>
+                        <li>Hacer clic en un Articulo.</li>
+                        <li>Hacer clic en el botón Compartir</li>
+                    </ul>
+                    <p><strong>Criticidad:</strong></p>
+                    <p>Baja (cosmético)</p>
+                    <p><strong>Justificación:</strong></p>
+                    <p>El problema no afecta la funcionalidad ni la navegación, pero impacta negativamente en la experiencia del usuario y la percepción profesional 
+                        del sitio. Se considera cosmético porque su corrección mejora la usabilidad y estética, pero no bloquea ninguna funcionalidad ni genera errores.
+                    <p><strong>Estimación técnica tradicinal</strong></p>
+                    <ul>
+                        <li>Diseño y ajuste CSS: 1 hora</li>
+                        <li>Pruebas visuales y revisión de estilo: 0.5 horas</li>
+                        <p>Total estimado: 1.5 horas</p>
+                    </ul>
+                    <p><strong>Estimación con Planning Poker (Sucesión de Fibonacci)</strong></p>
+                    <p>Valores de Fibonacci: 1 – 2 – 3 – 5 – 8 – 13 – 21</p>
+                    <p>Valor elegido: 1 punto</p>
+                    <p>Justificación: Tarea simple, de bajo riesgo y sin dependencias técnicas. Se completa en menos de 2 horas y no afecta otras partes del sistema.</p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="warning">
+            <strong>⚠️</strong> Cada sitio contiene AL MENOS 10 bugs y 10 problemas de UX diferentes.
+        </div>
+
+        <div class="projects-grid">
+            <!-- Proyecto 1: Blog -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📰</div>
+                    <h2>TechNews Blog</h2>
+                    <p class="project-type">Blog Técnico</p>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Blog sobre Ingeniería de Software enfocado en estimación y gestión de bugs. Presenta problemas de legibilidad, navegación y experiencia de lectura.
+                    </p>
+                    <div class="features">
+                        <h4>Áreas a revisar:</h4>
+                        <ul>
+                            <li>Legibilidad y tipografía</li>
+                            <li>Navegación entre artículos</li>
+                            <li>Comentarios y feedback</li>
+                            <li>Diseño responsive</li>
+                        </ul>
+                    </div>
+                    <a href="./proyecto-1-blog/index.html" class="btn-explore">Explorar Sitio</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 2: E-commerce -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📚</div>
+                    <h2>BookStore Online</h2>
+                    <p class="project-type">E-commerce</p>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Una tienda online de libros con catálogo, carrito de compras y sistema de búsqueda. Presenta diversos problemas de usabilidad y errores funcionales.
+                    </p>
+                    <div class="features">
+                        <h4>Áreas a revisar:</h4>
+                        <ul>
+                            <li>Navegación y menús</li>
+                            <li>Búsqueda y filtros</li>
+                            <li>Carrito de compras</li>
+                            <li>Formularios de checkout</li>
+                        </ul>
+                    </div>
+                    <a href="./proyecto-2-ecommerce/index.html" class="btn-explore">Explorar Sitio</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 3: Dashboard -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📊</div>
+                    <h2>Analytics Dashboard</h2>
+                    <p class="project-type">Dashboard Empresarial</p>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Panel de control empresarial con métricas, reportes y visualizaciones. Contiene problemas de accesibilidad y visualización de datos.
+                    </p>
+                    <div class="features">
+                        <h4>Áreas a revisar:</h4>
+                        <ul>
+                            <li>Gráficos y visualizaciones</li>
+                            <li>Menú lateral y navegación</li>
+                            <li>Tablas de datos</li>
+                            <li>Responsividad</li>
+                        </ul>
+                    </div>
+                    <a href="./proyecto-3-dashboard/index.html" class="btn-explore">Explorar Sitio</a>
+                </div>
+            </div>
+
+            <!-- Proyecto 4: Formularios -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📝</div>
+                    <h2>EventRegister</h2>
+                    <p class="project-type">Sistema de Registro</p>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Sistema de registro para eventos con formularios multi-paso. Presenta problemas de validación y flujo de usuario confuso.
+                    </p>
+                    <div class="features">
+                        <h4>Áreas a revisar:</h4>
+                        <ul>
+                            <li>Formularios y validaciones</li>
+                            <li>Flujo multi-paso</li>
+                            <li>Mensajes de error</li>
+                            <li>Confirmaciones y feedback</li>
+                        </ul>
+                    </div>
+                    <a href="./proyecto-4-formulario/index.html" class="btn-explore">Explorar Sitio</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🎓 Ingeniería de Software 2 - Universidad Nacional Arturo Jauretche</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Actividad de clase | Modalidad: Individual</p>
+        </footer>
+    </div>
+</body>
+</html>
