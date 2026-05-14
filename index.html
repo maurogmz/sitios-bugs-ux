@@ -18,6 +18,18 @@
             padding: 20px;
         }
 
+        .disabled-card {
+            opacity: 0.6;
+            filter: grayscale(70%);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .disabled-card:hover {
+            transform: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -393,7 +405,7 @@
 
         <div class="projects-grid">
             <!-- Proyecto 1: Blog -->
-            <div class="project-card">
+            <div class="project-card disabled-card">
                 <div class="project-header">
                     <div class="project-icon">📰</div>
                     <h2>TechNews Blog</h2>
